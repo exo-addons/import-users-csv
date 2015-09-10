@@ -1,0 +1,86 @@
+<%
+      /**
+      * Copyright ( C ) 2012 eXo Platform SAS.
+      *
+      * This is free software; you can redistribute it and/or modify it
+      * under the terms of the GNU Lesser General Public License as
+      * published by the Free Software Foundation; either version 2.1 of
+      * the License, or (at your option) any later version.
+      *
+      * This software is distributed in the hope that it will be useful,
+      * but WITHOUT ANY WARRANTY; without even the implied warranty of
+      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+      * Lesser General Public License for more details.
+      *
+      * You should have received a copy of the GNU Lesser General Public
+      * License along with this software; if not, write to the Free
+      * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+      * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+      */
+
+      %>
+
+
+<div class="AjaxLoadingMask" id="AjaxLoadingMask" style="display: none; margin: auto;">
+<div class="LoadingContainer">
+    <div class="LoadingText">Loading</div>
+    <span class="LoadingProgressBar"></span>
+</div>
+</div>
+
+
+<div id="SpaceManagementPortlet" class="uiBox uiSpaceManagement">
+
+    <div id="addMultiArea">
+        <div class="content">
+            <div class="content-head">
+                <h2>ADD YOUR CONTACTS</h2>
+            </div><!-- /.content-head -->
+
+            <div class="content-body">
+                <div class="form-add-contact">
+                    <div class="alert alert-success" id="actionsuccess" style="display: none;" ></div>
+                    <div class="alert alert-error" id="actionfail" style="display: none;"></div>
+                    <div id="uploadfield" style="position : relative; height:60px; border-bottom: 1px solid #AAAAAA;">
+                        <div id="inputs" class="clearfix" style=" position: absolute; top: 2px; left: 5px; width:345px; height:16px;text-align:left;">
+                      <span class="clearfix" style="margin: 5px;">
+                      <input type="button" class="btn btn-primary" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <input type="file" id="files" name="files[] multiple" class="hide" />
+                    </span>
+                        </div>
+                        <img src="/bluebook-portlets/skin/images/bb-gateway-logo.png" id="Image3" alt="" style="position: absolute; top: 2px; right: 5px; margin:5px; width:339px; height:52px; float: right;">
+                    </div>
+                    <div style=" margin: 10px;">
+                        <table  id="multiTable" class="hover order-column row-border compact">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-actions">
+                        <input type="button" id="uploadusers" class="btn btn-primary" value="Import" onclick="importUsers();"/>
+                        <a href="#" id="cancelupload" class="btn btn-primary" onclick="cancelMulti();return false;">Cancel</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
