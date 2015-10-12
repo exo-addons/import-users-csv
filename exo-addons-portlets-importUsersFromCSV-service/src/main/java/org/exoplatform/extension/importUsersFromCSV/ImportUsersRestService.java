@@ -63,7 +63,7 @@ public class ImportUsersRestService implements ResourceContainer {
             for(UserBean userIn:users)
             {
 
-                String name=userIn.getFirstName()+userIn.getLastName();
+                String name=userIn.getUserName();
                 name=  name.toLowerCase();
                 boolean ch=true;
                 while (ch==true)

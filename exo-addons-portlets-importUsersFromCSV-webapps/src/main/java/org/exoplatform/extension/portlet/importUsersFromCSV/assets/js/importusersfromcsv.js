@@ -58,7 +58,8 @@ function cvsData(evt) {
                         "sTitle": "email"
                     },
                     {
-                        "sTitle": "password"
+                        "sTitle": "password",
+                        "bVisible": false
                     }
                 ]
         });
@@ -116,7 +117,8 @@ function handleFileSelect(evt) {
                         "sTitle": "email"
                     },
                     {
-                        "sTitle": "password"
+                        "sTitle": "password",
+                        "bVisible": false
                     }
                 ]
         });

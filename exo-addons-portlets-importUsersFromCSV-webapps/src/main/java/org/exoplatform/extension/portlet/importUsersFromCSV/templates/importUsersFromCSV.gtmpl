@@ -48,7 +48,7 @@
                       <input type="file" id="files" name="files[] multiple" class="hide" />
                     </span>
                         </div>
-                        <img src="/bluebook-portlets/skin/images/bb-gateway-logo.png" id="Image3" alt="" style="position: absolute; top: 2px; right: 5px; margin:5px; width:339px; height:52px; float: right;">
+
                     </div>
                     <div style=" margin: 10px;">
                         <table  id="multiTable" class="hover order-column row-border compact">

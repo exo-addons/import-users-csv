@@ -25,8 +25,8 @@
         @Script(id = "core", value = "js/jquery.ui.core.min.js", depends = "jquery"),
         @Script(id = "jquery-ui", value = "js/jquery-ui.js", depends = "jquery"),
         @Script(id = "datatables", value = "js/jquery.datatables-1.9.4-custom.js", depends = "jquery"),
-        @Script(id = "tabletools", value = "js/jquery.datatables.tabletools-2.1.5-min.js"),
-        @Script(id = "customizations", value = "js/jquery.datatables.customizations-custom.js", depends = "jquery"),
+/*        @Script(id = "tabletools", value = "js/jquery.datatables.tabletools-2.1.5-min.js"),
+        @Script(id = "customizations", value = "js/jquery.datatables.customizations-custom.js", depends = "jquery"),*/
         @Script(id = "csv", value = "js/jquery.csv.js", depends = "jquery"),
         @Script(id = "json", value = "js/jquery.json-2.4.js", depends = "jquery"),
         @Script(id = "importUsersFromCSV", value = "js/importUsersFromCSV.js" , depends = {"jquery", "json", "datatables"})

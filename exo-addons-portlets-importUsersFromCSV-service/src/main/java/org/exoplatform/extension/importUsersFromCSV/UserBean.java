@@ -21,12 +21,20 @@ package org.exoplatform.extension.importUsersFromCSV;
  */
 public class UserBean {
 
+
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getFirstName() {
         return firstName;
