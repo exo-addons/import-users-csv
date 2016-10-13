@@ -12,7 +12,7 @@ Checkout the code, go at root folder and type
 
 Copy file exo-addons-portlets-importUsersFromCSV-webapps\target\importUsersFromCSV-portlets.war into Platform-Tomcat/webapps
 
-Copy file\exo-addons-portlets-importUsersFromCSV-service\target\exo-addons-portlets-importUsersFromCSV-service-1.0-SNAPSHOT.jar and marketplace-extension/config/target/marketplace-extension-config-1.0.x-SNAPSHOT.jar into Platform-Tomcat/lib
+Copy file\exo-addons-portlets-importUsersFromCSV-service\target\exo-addons-portlets-importUsersFromCSV-service-1.0-SNAPSHOT.jar into Platform-Tomcat/lib
 
 Start your exo server, log with an administrator.
 
