@@ -56,10 +56,10 @@ public class ImportUsersRestService implements ResourceContainer {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
 
-            //Invite all selected users to join the Project
             User user_=null;
             int i=0;
             int j=0;
+            startRequest();
             for(UserBean userIn:users)
             {
 
@@ -93,7 +93,6 @@ public class ImportUsersRestService implements ResourceContainer {
                     LOG.warn(userIn.getEmail() + " already exists, User will not be Created");
 
                 }else {
-                    startRequest();
                     User user = uh.createUserInstance(name);
                     user.setDisplayName(userIn.getFirstName());
                     user.setPassword(name);
@@ -105,6 +104,7 @@ public class ImportUsersRestService implements ResourceContainer {
                     LOG.info("User " + userIn.getFirstName() + userIn.getLastName() + " imported");
                     if(j<20){
                         endRequest();
+                        startRequest();
                         j=0;
                     }
                 }
