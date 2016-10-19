@@ -11,6 +11,8 @@ import org.exoplatform.container.component.ComponentRequestLifecycle;
 import org.exoplatform.services.organization.*;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.space.model.Space;
+import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.social.service.rest.RestChecker;
 import org.exoplatform.social.service.rest.Util;
 import org.exoplatform.social.core.manager.IdentityManager;
@@ -33,11 +35,13 @@ public class ImportUsersRestService implements ResourceContainer {
     private static final String[] SUPPORTED_FORMATS = new String[]{"json"};
     private static Boolean requestStarted = false;
     private OrganizationService orgService_;
+    private SpaceService spaceService_;
 
     private IdentityManager identityManager_;
 
-    public ImportUsersRestService(OrganizationService orgService, IdentityManager identityManager) {
+    public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService,IdentityManager identityManager) {
         this.orgService_=orgService;
+        this.spaceService_=spaceService;
         this.identityManager_=identityManager;
     }
 
@@ -49,6 +53,9 @@ public class ImportUsersRestService implements ResourceContainer {
 
         Identity sourceIdentity = Util.getAuthenticatedUserIdentity(portalContainerName);
         UserHandler uh = orgService_.getUserHandler();
+        MembershipTypeHandler mtHandler = orgService_.getMembershipTypeHandler();
+        GroupHandler gHandler = orgService_.getGroupHandler();
+        MembershipHandler mHandler = orgService_.getMembershipHandler();
         MediaType mediaType = RestChecker.checkSupportedFormat("json", SUPPORTED_FORMATS);
         try {
             identityManager_=Util.getIdentityManager(portalContainerName);
@@ -56,7 +63,7 @@ public class ImportUsersRestService implements ResourceContainer {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
 
-            User user_=null;
+            User user=null;
             int i=0;
             int j=0;
             startRequest();
@@ -84,16 +91,16 @@ public class ImportUsersRestService implements ResourceContainer {
                 Query query = new Query();
                 query.setEmail(userIn.getEmail());
                 if (uh.findUserByName(name) != null) {
-                    user_ =uh.findUserByName(name);
+                    user =uh.findUserByName(name);
                     LOG.warn(name+" user name already exists, User will not be Created");
                 }
 
                 else if (uh.findUsersByQuery(query).getSize() > 0) {
-                    user_ =uh.findUsersByQuery(query).load(0,1)[0];
+                    user =uh.findUsersByQuery(query).load(0,1)[0];
                     LOG.warn(userIn.getEmail() + " already exists, User will not be Created");
 
                 }else {
-                    User user = uh.createUserInstance(name);
+                    user = uh.createUserInstance(name);
                     user.setDisplayName(userIn.getFirstName());
                     user.setPassword(name);
                     user.setEmail(userIn.getEmail());
@@ -108,6 +115,36 @@ public class ImportUsersRestService implements ResourceContainer {
                         j=0;
                     }
                 }
+                // Add users to groups
+                if(userIn.getGroups()!=null&&!userIn.getGroups().equals("")){
+                    String[] groups = userIn.getGroups().split(";");
+                    for (String groupId:groups){
+                        Group group = gHandler.findGroupById(groupId);
+                        if(group!=null){
+                            mHandler.linkMembership(user, group, mtHandler.findMembershipType("member"), false);
+                        }else{
+                            LOG.warn("Group with id ="+groupId+" not found");
+                        }
+
+                    }
+                }
+
+                // Add users to spaces
+
+                if(userIn.getSpaces()!=null&&!userIn.getSpaces().equals("")){
+                    String[] spaces = userIn.getSpaces().split(";");
+                    for (String spaceId:spaces){
+                        Space space=spaceService_.getSpaceByPrettyName(spaceId);
+                        if(space!=null){
+                            spaceService_.addMember(space,user.getUserName());
+                        }else{
+                            LOG.warn("Space  ="+spaceId+" not found");
+                        }
+
+                    }
+                }
+
+
             }
             JSONObject jsonGlobal = new JSONObject();
             jsonGlobal.put("message",i+" Users Imported");

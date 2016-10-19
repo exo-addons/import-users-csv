@@ -90,6 +90,8 @@ function handleFileSelect(evt) {
                 entity[2] = cvsData[i].lastName;
                 entity[3] = cvsData[i].email;
                 entity[4] = cvsData[i].password;
+                entity[5] = cvsData[i].groups;
+                entity[6] = cvsData[i].spaces;
                 listContact.push(entity);
             }
         }
@@ -114,11 +116,17 @@ function handleFileSelect(evt) {
                         "sTitle": "Last Name"
                     },
                     {
-                        "sTitle": "email"
+                        "sTitle": "Email"
                     },
                     {
                         "sTitle": "password",
                         "bVisible": false
+                    },
+                    {
+                        "sTitle": "Groups"
+                    },
+                    {
+                        "sTitle": "Spaces"
                     }
                 ]
         });

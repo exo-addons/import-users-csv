@@ -27,6 +27,9 @@ public class UserBean {
     private String lastName;
     private String email;
     private String password;
+    private String groups;
+    private String spaces;
+
 
     public String getUserName() {
         return userName;
@@ -64,9 +67,20 @@ public class UserBean {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGroups(String groups) {
+        this.groups = groups;
+    }
+
+    public String getGroups() {
+        return groups;
+    }
+
+    public void setSpaces(String spaces) {
+        this.spaces = spaces;
     }
 
 
+    public String getSpaces() {
+        return spaces;
+    }
 }

@@ -44,7 +44,7 @@
                     <div id="uploadfield" style="position : relative; height:60px; border-bottom: 1px solid #AAAAAA;">
                         <div id="inputs" class="clearfix" style=" position: absolute; top: 2px; left: 5px; width:345px; height:16px;text-align:left;">
                       <span class="clearfix" style="margin: 5px;">
-                      <input type="button" class="btn btn-primary" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                       <input type="file" id="files" name="files[] multiple" class="hide" />
                     </span>
                         </div>
@@ -59,10 +59,14 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -75,7 +79,7 @@
 
                     <div class="form-actions">
                         <input type="button" id="uploadusers" class="btn btn-primary" value="Import" onclick="importUsers();"/>
-                        <a href="#" id="cancelupload" class="btn btn-primary" onclick="cancelMulti();return false;">Cancel</a>
+                        <a href="#" id="cancelupload" class="btn" onclick="cancelMulti();return false;">Cancel</a>
                     </div>
 
                 </div>
