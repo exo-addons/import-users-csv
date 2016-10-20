@@ -6,3 +6,78 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
+
+#
+# Default excludes
+#
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+
+# Maven
+target/
+pom.xml.versionsBackup
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea/
+
+#bin folder
+bin/
+
+#log file
+*.log
+
+# eclipse project file
+.settings/
+.classpath
+.project
+
+# Bin
+bin/
+# Log
+*.log
+
+# OS
+.DS_Store
+
+# Misc
+*.swp
+transaction.log
+
+chat-mongohq.properties
+application/src/main/resources/rebel.xml
+config/target/*
+extension/target/*
+exo-addons-chat-extension/target/*
+exo-addons-chat-extension-config/target/*
+exo-addons-chat-extension-pkg/target/*
+exo-addons-chat-extension-community/target/*
+exo-addons-chat-extension-config-community/target/*
+exo-addons-chat-extension-pkg-community/target/*
+
+release.properties
+*.releaseBackup
+
+data/chat-single-local.properties
+data/gatling/results/local/*
+
+copie.sh
+
+cache/data
+
+*.classpath
+*.project
