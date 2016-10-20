@@ -33,9 +33,9 @@
 })
 @Stylesheets ({
         @Stylesheet(id = "jquerythemecss", value = "skin/jquery.ui.theme.css"),
-        @Stylesheet(id = "dataTablescss", value = "skin/jquery.dataTables.css")
+        @Stylesheet(id = "dataTablescss", value = "skin/jquery.dataTables.css"),
+        @Stylesheet(id = "eXotheme", value = "skin/importUserCSV.css")
 })
-//@Less("skin/importUsersFromCSV.less")
 @Assets("*")
 
 package org.exoplatform.extension.portlet.importUsersFromCSV;
@@ -46,7 +46,6 @@ import juzu.plugin.asset.Stylesheets;
 import juzu.plugin.asset.Scripts;
 import juzu.plugin.asset.Script;
 import juzu.plugin.asset.Stylesheet;
-import juzu.plugin.less.Less;
 import juzu.plugin.portlet.Portlet;
 
 

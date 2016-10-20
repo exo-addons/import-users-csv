@@ -29,7 +29,7 @@
 </div>
 
 
-<div id="SpaceManagementPortlet" class="uiBox uiSpaceManagement">
+<div id="ImportUsersPortlet" class="uiBox">
 
     <div id="addMultiArea">
         <div class="content">
@@ -76,7 +76,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div>
+                    <div style="padding: 10px">
                           <input type="checkbox" id="createusers" name="createusers" value=""> Create users with existing userName<br>
                           <input type="checkbox" id="addusers" name="addusers" value=""> Add existing users to the Groups and Spaces<br>
                     </div>
