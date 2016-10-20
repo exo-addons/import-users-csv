@@ -17,24 +17,6 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="exo-addons-importUsersFromCSV-service" />
-        <module name="exo-addons-importUsersFromCSV-webapps" />
-        <module name="exo-addons-portlets-importUsersFromCSV-webapps" />
-      </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="exo-addons-importUsersFromCSV-pkg" target="1.6" />
-      <module name="exo-addons-importUsersFromCSV-service" target="1.6" />
-      <module name="exo-addons-importUsersFromCSV-webapps" target="1.6" />
-      <module name="exo-addons-portlets-importUsersFromCSV-pkg" target="1.6" />
-      <module name="exo-addons-portlets-importUsersFromCSV-service" target="1.6" />
-      <module name="exo-addons-portlets-importUsersFromCSV-webapps" target="1.6" />
-      <module name="importUsersFromCSV" target="1.6" />
-    </bytecodeTargetLevel>
   </component>
 </project>
