@@ -6,7 +6,7 @@
         <artifactId>importUsersFromCSV</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>exo-addons-portlets-importUsersFromCSV-webapps</artifactId>
+    <artifactId>exo-addons-importUsersFromCSV-webapps</artifactId>
     <packaging>war</packaging>
     <name>eXo Platform - HomePage Portlets</name>
   <dependencies>
@@ -29,8 +29,20 @@
 
   </dependencies>
   <build>
-    <finalName>importUsersFromCSV-portlets</finalName>
-
+    <finalName>importUsersFromCSV</finalName>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-war-plugin</artifactId>
+              <configuration>
+                  <webResources>
+                      <resource>
+                          <directory>${basedir}/src/main/resources</directory>
+                      </resource>
+                  </webResources>
+              </configuration>
+          </plugin>
+      </plugins>
 
   </build>
 </project>

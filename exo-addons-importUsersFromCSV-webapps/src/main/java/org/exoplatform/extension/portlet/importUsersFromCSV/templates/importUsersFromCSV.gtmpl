@@ -76,7 +76,10 @@
                             </tbody>
                         </table>
                     </div>
-
+                    <div>
+                          <input type="checkbox" id="createusers" name="createusers" value=""> Create users with existing userName<br>
+                          <input type="checkbox" id="addusers" name="addusers" value=""> Add existing users to the Groups and Spaces<br>
+                    </div>
                     <div class="form-actions">
                         <input type="button" id="uploadusers" class="btn btn-primary" value="Import" onclick="importUsers();"/>
                         <a href="#" id="cancelupload" class="btn" onclick="cancelMulti();return false;">Cancel</a>

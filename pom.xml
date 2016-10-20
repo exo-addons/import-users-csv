@@ -24,17 +24,12 @@
         </developer>
     </developers>
     <modules>
-        <module>exo-addons-portlets-importUsersFromCSV-service</module>
-        <module>exo-addons-portlets-importUsersFromCSV-webapps</module>
-        <module>exo-addons-portlets-importUsersFromCSV-pkg</module>
+        <module>exo-addons-importUsersFromCSV-service</module>
+        <module>exo-addons-importUsersFromCSV-webapps</module>
+        <module>exo-addons-importUsersFromCSV-pkg</module>
 
     </modules>
-    <!--scm>
-      <connection>scm:git:https://github.com/exo-addons/import-users-csv.git </connection>
-      <developerConnection>scm:git:https://github.com/exo-addons/import-users-csv.git </developerConnection>
-      <url>https://github.com/exo-addons/import-users-csv.git </url>
-      <tag>HEAD</tag>
-    </scm-->
+
     <dependencyManagement>
         <dependencies>
 

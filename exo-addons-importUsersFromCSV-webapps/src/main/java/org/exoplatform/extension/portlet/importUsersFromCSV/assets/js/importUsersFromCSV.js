@@ -138,6 +138,8 @@ function handleFileSelect(evt) {
 
 var importUsers = function ()
 {
+    var createusers=$("#createusers").is(":checked");
+    var addusers=$("#addusers").is(":checked");
     $.ajax
     ({
         beforeSend: function() {
@@ -149,7 +151,7 @@ var importUsers = function ()
         data: JSON.stringify(cvsData),
         contentType: "application/json",
         dataType: "json",
-        url: "/rest/private/importusersrest/importusers",
+        url: "/rest/private/importusersrest/importusers?creatduplicated="+createusers+"&addexistingusers="+addusers,
         statusCode: {
             400: function (xhr) {
                 $("#actionfail").html('<i class="uiIconError"></i>' + xhr.responseText);

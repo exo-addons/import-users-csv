@@ -19,7 +19,7 @@
       <title>ImportUsersFromCSV</title>
       <short-title>Import Users From CSV</short-title>
 
-      <keywords>Juzu social intranet</keywords>
+      <keywords>import-users-webapp</keywords>
     </portlet-info>
   </portlet>
 </portlet-app>
