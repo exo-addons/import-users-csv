@@ -32,19 +32,19 @@
 <div id="ImportUsersPortlet" class="uiBox">
 
     <div id="addMultiArea">
-        <div class="content">
-            <div class="content-head">
-                <h2>ADD YOUR CONTACTS</h2>
-            </div><!-- /.content-head -->
+        <div>
+            <div>
+                <h3>Bulk import of users:</h3>
+            </div>
 
             <div class="content-body">
                 <div class="form-add-contact">
                     <div class="alert alert-success" id="actionsuccess" style="display: none;" ></div>
                     <div class="alert alert-error" id="actionfail" style="display: none;"></div>
-                    <div id="uploadfield" style="position : relative; height:60px; border-bottom: 1px solid #AAAAAA;">
+                    <div id="uploadfield" style="position: relative; height: 40px;" class="uiToolbar uiGrayLightBox">
                         <div id="inputs" class="clearfix" style=" position: absolute; top: 2px; left: 5px; width:345px; height:16px;text-align:left;">
                       <span class="clearfix" style="margin: 5px;">
-                      <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected please select a CSV file with the list of users to import</span>
                       <input type="file" id="files" name="files[] multiple" class="hide" />
                     </span>
                         </div>
@@ -80,7 +80,7 @@
                           <input type="checkbox" id="createusers" name="createusers" value=""> Create users with existing userName<br>
                           <input type="checkbox" id="addusers" name="addusers" value=""> Add existing users to the Groups and Spaces<br>
                     </div>
-                    <div class="form-actions">
+                    <div class="uiToolbar uiGrayLightBox">
                         <input type="button" id="uploadusers" class="btn btn-primary" value="Import" onclick="importUsers();"/>
                         <a href="#" id="cancelupload" class="btn" onclick="cancelMulti();return false;">Cancel</a>
                     </div>

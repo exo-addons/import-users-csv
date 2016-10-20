@@ -9,7 +9,7 @@
     <title>Import Users</title>
     <access-permissions>*:/platform/administrators</access-permissions>
     <edit-permission>*:/platform/administrators</edit-permission>
-    <show-max-window>true</show-max-window>
+    <show-max-window>false</show-max-window>
     <portlet-application>
        <portlet>
           <application-ref>import-users-webapp</application-ref>
