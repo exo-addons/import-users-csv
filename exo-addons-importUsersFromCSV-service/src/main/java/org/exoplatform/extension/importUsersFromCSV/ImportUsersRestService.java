@@ -110,7 +110,7 @@ public class ImportUsersRestService implements ResourceContainer {
                             newName=name+suffix;
                         }
                         user = uh.createUserInstance(newName);
-                        user.setDisplayName(userIn.getFirstName());
+                        user.setDisplayName(userIn.getFirstName()+" "+userIn.getLastName());
                         user.setPassword(newName);
                         user.setEmail(userIn.getEmail());
                         user.setLastName(userIn.getLastName());
@@ -131,7 +131,7 @@ public class ImportUsersRestService implements ResourceContainer {
 
                 } else {
                     user = uh.createUserInstance(name);
-                    user.setDisplayName(userIn.getFirstName());
+                    user.setDisplayName(userIn.getFirstName()+" "+userIn.getLastName());
                     user.setPassword(name);
                     user.setEmail(userIn.getEmail());
                     user.setLastName(userIn.getLastName());
