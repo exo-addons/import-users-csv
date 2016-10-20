@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="exo-addons-importUsersFromCSV-webapps:war">
+    <output-path>$PROJECT_DIR$/exo-addons-importUsersFromCSV-webapps/target</output-path>
+    <root id="archive" name="importUsersFromCSV.war">
+      <element id="artifact" artifact-name="exo-addons-importUsersFromCSV-webapps:war exploded" />
+    </root>
+  </artifact>
+</component>

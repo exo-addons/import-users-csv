@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.exoplatform.ws:exo.ws.commons:2.5.x-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/ws/exo.ws.commons/2.5.x-SNAPSHOT/exo.ws.commons-2.5.x-20161015.114951-112.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/ws/exo.ws.commons/2.5.x-SNAPSHOT/exo.ws.commons-2.5.x-20161015.114951-112-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/ws/exo.ws.commons/2.5.x-SNAPSHOT/exo.ws.commons-2.5.x-20161015.114951-112-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

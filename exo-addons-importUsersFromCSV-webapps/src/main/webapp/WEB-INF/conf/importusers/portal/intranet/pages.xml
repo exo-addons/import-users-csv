@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page-set
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.gatein.org/xml/ns/gatein_objects_1_2 http://www.gatein.org/xml/ns/gatein_objects_1_2"
+    xmlns="http://www.gatein.org/xml/ns/gatein_objects_1_2">
+
+  <page>
+    <name>import-users</name>
+    <title>Import Users</title>
+    <access-permissions>*:/platform/administrators</access-permissions>
+    <edit-permission>*:/platform/administrators</edit-permission>
+    <show-max-window>true</show-max-window>
+    <portlet-application>
+       <portlet>
+          <application-ref>import-users-webapp</application-ref>
+          <portlet-ref>ImportUsersFromCSV</portlet-ref>
+       </portlet>
+      <access-permissions>Everyone</access-permissions>
+       <show-info-bar>false</show-info-bar>
+    </portlet-application>
+  </page>
+</page-set>

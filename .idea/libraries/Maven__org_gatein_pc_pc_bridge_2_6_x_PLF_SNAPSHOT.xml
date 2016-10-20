@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.gatein.pc:pc-bridge:2.6.x-PLF-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/gatein/pc/pc-bridge/2.6.x-PLF-SNAPSHOT/pc-bridge-2.6.x-PLF-20161001.131311-19.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/gatein/pc/pc-bridge/2.6.x-PLF-SNAPSHOT/pc-bridge-2.6.x-PLF-20161001.131311-19-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/gatein/pc/pc-bridge/2.6.x-PLF-SNAPSHOT/pc-bridge-2.6.x-PLF-20161001.131311-19-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

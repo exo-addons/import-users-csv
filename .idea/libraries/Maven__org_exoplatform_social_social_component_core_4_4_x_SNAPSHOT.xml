@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.exoplatform.social:social-component-core:4.4.x-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/social/social-component-core/4.4.x-SNAPSHOT/social-component-core-4.4.x-20161019.135110-421.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/social/social-component-core/4.4.x-SNAPSHOT/social-component-core-4.4.x-20161019.135110-421-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/exoplatform/social/social-component-core/4.4.x-SNAPSHOT/social-component-core-4.4.x-20161019.135110-421-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
