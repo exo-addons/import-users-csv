@@ -1,11 +1,15 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
+
+# /
+/.settings
+/.project
+/.classpath
+/.idea
+/*.iml
+/*.ipr
+/*.iws
+/temp
+/bin
+/target
 
 #
 # Default excludes
@@ -24,60 +28,26 @@ buildNumber.properties
 *.ear
 *.sar
 *.class
-
-# Maven
+*~
+**/.gitignore
+# Maven 
 target/
-pom.xml.versionsBackup
+overlays/
 
-# IntelliJ project files
+# IntelliJ project files 
 *.iml
 *.iws
 *.ipr
 .idea/
-
-#bin folder
-bin/
-
-#log file
-*.log
 
 # eclipse project file
 .settings/
 .classpath
 .project
 
-# Bin
-bin/
-# Log
-*.log
-
 # OS
 .DS_Store
 
 # Misc
 *.swp
-transaction.log
-
-chat-mongohq.properties
-application/src/main/resources/rebel.xml
-config/target/*
-extension/target/*
-exo-addons-chat-extension/target/*
-exo-addons-chat-extension-config/target/*
-exo-addons-chat-extension-pkg/target/*
-exo-addons-chat-extension-community/target/*
-exo-addons-chat-extension-config-community/target/*
-exo-addons-chat-extension-pkg-community/target/*
-
-release.properties
-*.releaseBackup
-
-data/chat-single-local.properties
-data/gatling/results/local/*
-
-copie.sh
-
-cache/data
-
-*.classpath
-*.project
+dependency-reduced-pom.xml
