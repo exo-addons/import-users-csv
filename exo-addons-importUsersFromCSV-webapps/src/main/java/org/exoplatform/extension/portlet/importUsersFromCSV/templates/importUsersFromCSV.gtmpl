@@ -42,16 +42,17 @@
                     <div class="alert alert-success" id="actionsuccess" style="display: none;" ></div>
                     <div class="alert alert-error" id="actionfail" style="display: none;"></div>
                     <div id="uploadfield" style="position: relative; height: 40px;" class="uiToolbar uiGrayLightBox">
+                        <span>Ti import the list of users you need to upload a CSV file, for more details you can check the<a href="/importUsersFromCSV/csv-sample/sample.csv"> CSV sample</a> file</span>
                         <div id="inputs" class="clearfix" style=" position: absolute; top: 2px; left: 5px; width:345px; height:16px;text-align:left;">
                       <span class="clearfix" style="margin: 5px;">
-                      <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No File Selected please select a CSV file with the list of users to import</span>
+                      <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No CSV File Selected</span>
                       <input type="file" id="files" name="files[] multiple" class="hide" />
                     </span>
                         </div>
 
                     </div>
                     <div style=" margin: 10px;">
-                        <table  id="multiTable" class="hover order-column row-border compact">
+                        <table  id="multiTable" class="hover row-border compact">
                             <thead>
                             <tr>
                                 <th></th>
