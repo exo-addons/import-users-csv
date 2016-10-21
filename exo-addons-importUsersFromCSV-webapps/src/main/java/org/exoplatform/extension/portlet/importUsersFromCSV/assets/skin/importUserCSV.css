@@ -20,6 +20,7 @@ div#ImportUsersPortlet {
 	font-size: 13px;
 	text-transform: capitalize;
 }
+#ImportUsersPortlet table.dataTable{width: 100%!important}
 #ImportUsersPortlet table.dataTable.compact tbody th, table.dataTable.compact tbody td {
 
 	background-color: #f8f8f8;
