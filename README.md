@@ -10,9 +10,9 @@ Checkout the code, go at root folder and type
     mvn clean install
   
 
-Copy file exo-addons-importUsersFromCSV-webapps\target\importUsersFromCSV.war into Platform-Tomcat/webapps
+Copy file import-users-csv\webapps\target\import-users-csv.war into Platform-Tomcat/webapps
 
-Copy file\exo-addons-importUsersFromCSV-service\target\exo-addons-importUsersFromCSV-service-1.0-SNAPSHOT.jar into Platform-Tomcat/lib
+Copy file import-users-csv\services\target\import-users-csv-service-1.0.x-SNAPSHOT.jar into Platform-Tomcat/lib
 
 Start your exo server, log with an administrator.
 

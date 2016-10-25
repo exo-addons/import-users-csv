@@ -42,7 +42,7 @@
                     <div class="alert alert-success" id="actionsuccess" style="display: none;" ></div>
                     <div class="alert alert-error" id="actionfail" style="display: none;"></div>
                     <div id="uploadfield" style="position: relative; height: 50px;" class="uiToolbar uiGrayLightBox">
-                        <span>To import the list of users you need to upload a CSV file, for more details you can check the<a href="/importUsersFromCSV/csv-sample/sample.csv"> CSV sample</a> file</span>
+                        <span>To import the list of users you need to upload a CSV file, for more details you can check the<a href="/import-users-csv/csv-sample/sample.csv"> CSV sample</a> file</span>
                         <div id="inputs" class="clearfix" style=" position: absolute; top: 12px; left: 5px; width:345px; height:16px;text-align:left;">
                       <span class="clearfix" style="margin: 5px;">
                       <input type="button" class="btn" onclick="$('#files').click();  return false;" Value="Choose File..."><span id="nofileselect"> No CSV File Selected</span>
