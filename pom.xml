@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.exoplatform.addons.import-users-csv</groupId>
   <artifactId>import-users-csv</artifactId>
-  <version>1.2.x-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
   <name>Import Users From CSV Portlet eXo Platform 4</name>
   <description>Import Users From CSV Portlet eXo Platform 4</description>
@@ -31,7 +31,7 @@
   <scm>
     <connection>scm:git:git://github.com/exo-addons/import-users-csv.git</connection>
     <developerConnection>scm:git:git@github.com:exo-addons/import-users-csv.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>1.2.0</tag>
     <url>https://github.com/exo-addons/import-users-csv</url>
   </scm>
   <properties>

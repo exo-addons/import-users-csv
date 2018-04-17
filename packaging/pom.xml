@@ -4,7 +4,7 @@
   <parent>
     <artifactId>import-users-csv</artifactId>
     <groupId>org.exoplatform.addons.import-users-csv</groupId>
-    <version>1.2.x-SNAPSHOT</version>
+    <version>1.2.0</version>
   </parent>
   <artifactId>import-users-csv-pkg</artifactId>
   <packaging>pom</packaging>
