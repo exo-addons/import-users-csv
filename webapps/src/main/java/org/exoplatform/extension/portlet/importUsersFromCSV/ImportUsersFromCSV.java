@@ -19,24 +19,18 @@
 
 package org.exoplatform.extension.portlet.importUsersFromCSV;
 
-import juzu.Path;
-import juzu.Response;
-import juzu.View;
-import juzu.template.Template;
-import juzu.SessionScoped;
 
-import javax.inject.Inject;
-
-
-@SessionScoped
-public class ImportUsersFromCSV {
-
-    @Inject
-    @Path("importUsersFromCSV.gtmpl")
-    Template index;
-
-    @View
-    public Response.Content index() {
-        return index.ok();
-    }
+import java.io.IOException;
+import javax.portlet.GenericPortlet;
+import javax.portlet.PortletRequestDispatcher;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.PortletException;
+import javax.portlet.RenderMode;
+public class ImportUsersFromCSV extends GenericPortlet {
+	@RenderMode(name = "view")
+	public void Hello(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+		PortletRequestDispatcher prDispatcher = getPortletContext().getRequestDispatcher("/ng/index.html");
+		prDispatcher.include(request, response);
+	}
 }

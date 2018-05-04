@@ -31,15 +31,73 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
         <configuration>
-          <webResources>
-            <resource>
-              <directory>${basedir}/src/main/resources</directory>
-            </resource>
-          </webResources>
+          <excludes>
+            <exclude>ngapp/**</exclude>
+          </excludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <excludes>
+            <exclude>ngapp/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+          <execution>
+            <id>exec-npm-ng-build</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
+              <executable>ng${ng.extension}</executable>
+              <arguments>
+                <argument>build</argument>
+                <argument>--prod</argument>
+                <argument>--output-hashing</argument>
+                <argument>none</argument>
+
+              </arguments>
+            </configuration>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>install-on-windows</id>
+      <activation>
+        <os>
+          <family>Windows</family>
+        </os>
+      </activation>
+      <properties>
+        <ng.extension>.cmd</ng.extension>
+      </properties>
+    </profile>
+    <profile>
+      <id>install-on-osx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <ng.extension></ng.extension>
+      </properties>
+    </profile>
+  </profiles>
 </project>

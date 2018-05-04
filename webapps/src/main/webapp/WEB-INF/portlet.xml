@@ -7,7 +7,7 @@
   <portlet>
     <portlet-name>ImportUsersFromCSV</portlet-name>
     <display-name xml:lang="EN">Import Users From CSV</display-name>
-    <portlet-class>org.exoplatform.extension.portlet.importUsersFromCSV.ImportUsersFromCSVPortlet</portlet-class>
+    <portlet-class>org.exoplatform.extension.portlet.importUsersFromCSV.ImportUsersFromCSV</portlet-class>
 
     <supports>
       <mime-type>text/html</mime-type>
