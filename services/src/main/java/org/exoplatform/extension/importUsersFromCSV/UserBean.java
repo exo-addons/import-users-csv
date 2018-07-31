@@ -67,20 +67,23 @@ public class UserBean {
         return password;
     }
 
-    public void setGroups(String groups) {
-        this.groups = groups;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getGroups() {
         return groups;
     }
 
-    public void setSpaces(String spaces) {
-        this.spaces = spaces;
+    public void setGroups(String groups) {
+        this.groups = groups;
     }
-
 
     public String getSpaces() {
         return spaces;
+    }
+
+    public void setSpaces(String spaces) {
+        this.spaces = spaces;
     }
 }
