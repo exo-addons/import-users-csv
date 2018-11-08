@@ -149,12 +149,28 @@ public class ImportUsersRestService implements ResourceContainer {
                     // Add users to groups
                     if(userIn.getGroups()!=null&&!userIn.getGroups().equals("")){
                         String[] groups = userIn.getGroups().split(";");
-                        for (String groupId:groups){
-                            Group group = gHandler.findGroupById(groupId);
-                            if(group!=null){
-                                mHandler.linkMembership(user, group, mtHandler.findMembershipType("member"), false);
-                            }else{
-                                LOG.warn("Group with id ="+groupId+" not found");
+                        for (String membership:groups){
+                            String[] groupString = membership.split(":");
+                            String membershipTypeId = "";
+                            String groupId = "";
+                            if (membership.contains(":")) {
+                                membershipTypeId=groupString[0];
+                                groupId=groupString[1];
+                            } else {
+                                membershipTypeId="member";
+                                groupId=groupString[0];
+
+                            }
+                            MembershipType membershipType = mtHandler.findMembershipType(membershipTypeId);
+                            if(membershipType==null){
+                                LOG.warn("Membership type with id ="+membershipTypeId+" not found");
+                            } else {
+                                Group group = gHandler.findGroupById(groupId);
+                                if (group != null) {
+                                    mHandler.linkMembership(user, group, membershipType, true);
+                                } else {
+                                    LOG.warn("Group with id =" + groupId + " not found");
+                                }
                             }
                         }
                     }
