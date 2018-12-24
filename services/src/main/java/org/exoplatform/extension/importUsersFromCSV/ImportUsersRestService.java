@@ -108,9 +108,18 @@ public class ImportUsersRestService implements ResourceContainer {
 
                     if (uh.findUsersByQuery(query).getSize() > 0) {
                         user = uh.findUsersByQuery(query).load(0, 1)[0];
-                        exist = true;
-                        LOG.warn(userIn.getEmail() + " already exists, User will not be Created");
-                        status = "Updated";
+                        if (user.getUserName().equals(name))
+                        {
+                            status = "Updated";
+                            exist = true;
+                            i++;
+                        }
+                        else {
+                            LOG.warn(userIn.getEmail() + " not created mail already existed with username : "+ user.getUserName());
+                            status = "Not created mail already existed with username : "+ user.getUserName();
+                            user = null;
+                        }
+
                     } else if (uh.findUserByName(name) != null) {
                         if (creatDuplicated != null && creatDuplicated) {
                             int suffix = 1;
@@ -135,10 +144,12 @@ public class ImportUsersRestService implements ResourceContainer {
                                 j = 0;
                             }
                             status = "Duplicated";
+                            exist = true;
                         } else {
                             user = uh.findUserByName(name);
-                            exist = true;
-                            LOG.warn(name + " user name already exists, User will not be Created");
+                            LOG.warn(name + " not created : username already existed with an another email");
+                            user = null;
+                            status = "Not created : username already existed with an another email";
                         }
 
                     } else {
@@ -157,9 +168,11 @@ public class ImportUsersRestService implements ResourceContainer {
                             startRequest();
                             j = 0;
                         }
+                        exist = true;
                     }
-                    if (!exist || (addExistingUsers != null & addExistingUsers)) {
+                    if (exist && addExistingUsers != null && addExistingUsers) {
                         // Add users to groups
+                        Boolean groupUpdated = false;
                         if (userIn.getGroups() != null && !userIn.getGroups().equals("")) {
                             String[] groups = userIn.getGroups().split(";");
                             for (String membership : groups) {
@@ -180,7 +193,10 @@ public class ImportUsersRestService implements ResourceContainer {
                                 } else {
                                     Group group = gHandler.findGroupById(groupId);
                                     if (group != null) {
-                                        mHandler.linkMembership(user, group, membershipType, true);
+                                        if (mHandler.findMembershipByUserGroupAndType(user.getUserName(),group.getId(),membershipType.getName())==null) {
+                                            mHandler.linkMembership(user, group, membershipType, true);
+                                            groupUpdated = true;
+                                        }
                                     } else {
                                         LOG.warn("Group with id =" + groupId + " not found");
                                     }
@@ -194,21 +210,25 @@ public class ImportUsersRestService implements ResourceContainer {
                             for (String spaceId : spaces) {
                                 Space space = spaceService_.getSpaceByPrettyName(spaceId);
                                 if (space != null) {
-                                    spaceService_.addMember(space, user.getUserName());
+                                    if (!spaceService_.isMember(space,user.getUserName())) {
+                                        spaceService_.addMember(space, user.getUserName());
+                                        groupUpdated = true;
+                                    }
                                 } else {
                                     LOG.warn("Space  =" + spaceId + " not found");
                                 }
 
                             }
                         }
+                        if (groupUpdated && status.equals("Updated")) status += " - Space or group updated";
                     }
             }catch (Exception e){
                 LOG.error(e);
                 // set error flag + exception
                 status = "Error-"+e.getMessage();
                 }
-                // if user not null update report information with value comig form user instance
-                if (user!=null)
+                // if user not null update report information with value coming form user instance
+            if (user!=null)
                 {
                     name = user.getUserName();
                     firstName = user.getFirstName();
