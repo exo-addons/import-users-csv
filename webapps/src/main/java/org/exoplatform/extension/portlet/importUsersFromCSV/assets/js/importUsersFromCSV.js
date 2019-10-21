@@ -1,5 +1,14 @@
 var cvsData;
 
+function exportData (url,fileName) {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+        a.href = url;
+        a.download = fileName;
+        a.click();
+};
+
 $(document).ready(function () {
     $('#files').on('change', handleFileSelect);
 });
@@ -176,9 +185,14 @@ var importUsers = function ()
     (
         function (data)
         {
+            var today = new Date();
+            var fileName = today.toISOString().substring(0, 10)+"-imported-users.csv";
+            var urlreport = '/rest/private/importusersrest/getReport?reportId='+data.file;
+            exportData(urlreport, fileName);
             $("#AjaxLoadingMask").hide();
             $("#actionsuccess").html('<i class="uiIconSuccess"></i>'+data.message);
             $("#actionsuccess").show().delay(5000).fadeOut();
+
         }
     );
 }
