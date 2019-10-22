@@ -79,7 +79,7 @@
                     </div>
                     <div style="padding: 10px">
                           <input type="checkbox" id="createusers" name="createusers" value=""> Create users with existing userName<br>
-                          <input type="checkbox" id="addusers" name="addusers" value=""> Add existing users to the Groups and Spaces<br>
+                          <input type="checkbox" id="addusers" name="addusers" value="" checked> Add users to the Groups and Spaces<br>
                     </div>
                     <div class="uiToolbar uiGrayLightBox">
                         <input type="button" id="uploadusers" class="btn btn-primary" value="Import" onclick="importUsers();"/>
