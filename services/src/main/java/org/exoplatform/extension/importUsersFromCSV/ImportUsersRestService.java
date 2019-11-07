@@ -6,11 +6,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response;
 
+import com.google.caja.util.Sets;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.component.ComponentRequestLifecycle;
 import org.exoplatform.services.organization.*;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.model.Profile;
 import org.exoplatform.social.core.space.model.Space;
 import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.social.service.rest.RestChecker;
@@ -21,17 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.List;
+import java.util.*;
 
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
+import org.gatein.common.p3p.P3PConstants;
 import org.json.JSONObject;
+
+import static java.util.Objects.nonNull;
 
 
 @Path("/importusersrest")
 @Produces("application/json")
 public class ImportUsersRestService implements ResourceContainer {
-
 
     private static final Log LOG = ExoLogger.getLogger(ImportUsersRestService.class);
     private static final String portalContainerName = "portal";
@@ -39,6 +43,15 @@ public class ImportUsersRestService implements ResourceContainer {
     private static Boolean requestStarted = false;
     private OrganizationService orgService_;
     private SpaceService spaceService_;
+
+    private final static Set<String> AVAILABLE_ADDITIONAL_INFORMATION = Sets.newHashSet(
+            P3PConstants.INFO_USER_JOB_TITLE, // Fonction
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_NAME, // Lieu d'exercice : champ libre obligatoire
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_STREET, // Numéro et rue - Adresse (champ libre)
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_POSTALCODE, // Code postal - Adresse (champ libre)
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_CITY, // Ville - Adresse (champ libre)
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_STATEPROV, // Département - Adresse (Liste déroulante)
+            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_COUNTRY); // Région - Adresse (Liste déroulante)
 
     private IdentityManager identityManager_;
 
@@ -56,7 +69,7 @@ public class ImportUsersRestService implements ResourceContainer {
                                 @Context UriInfo uriInfo,
                                 @QueryParam("creatduplicated") Boolean creatDuplicated,
                                 @QueryParam("addexistingusers") Boolean addExistingUsers,
-                                List<UserBean> users) throws Exception {
+                                List<UserBean> users) {
 
         // report String in csv format, status can be created, updated, duplicated, error+message;
         String csv = "username,lastname,firstname,email,status" + "\n";
@@ -77,6 +90,7 @@ public class ImportUsersRestService implements ResourceContainer {
             startRequest();
             for(UserBean userIn:users) {
                 User user=null;
+
                 //define status, possible value : created, updated, duplicated, error+message
                 String status = "Created";
                 String name = userIn.getUserName();
@@ -121,6 +135,7 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
 
                     } else if (uh.findUserByName(name) != null) {
+
                         if (creatDuplicated != null && creatDuplicated) {
                             int suffix = 1;
                             String newName = name + suffix;
@@ -171,6 +186,7 @@ public class ImportUsersRestService implements ResourceContainer {
                         exist = true;
                     }
                     if (exist && addExistingUsers != null && addExistingUsers) {
+
                         // Add users to groups
                         Boolean groupUpdated = false;
                         if (userIn.getGroups() != null && !userIn.getGroups().equals("")) {
@@ -222,6 +238,13 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
                         if (groupUpdated && status.equals("Updated")) status += " - Space or group updated";
                     }
+
+
+                    Map<String, String> additionalUserInformations = userIn.getAdditionalInformations();
+                    if (nonNull(additionalUserInformations) && !additionalUserInformations.isEmpty()) {
+                        createOrUpdateUserProfile(user, additionalUserInformations);
+                    }
+
             }catch (Exception e){
                 LOG.error(e);
                 // set error flag + exception
@@ -256,10 +279,29 @@ public class ImportUsersRestService implements ResourceContainer {
         }
     }
 
+    void createOrUpdateUserProfile(User user, Map<String, String> additionalUserInformation) throws Exception {
+
+        UserProfileHandler hanlder = orgService_.getUserProfileHandler();
+        UserProfile userProfile = hanlder.findUserProfileByName(user.getUserName());
+
+        if (Objects.isNull(userProfile)) {
+            userProfile = hanlder.createUserProfileInstance(user.getUserName());
+        }
+
+        for (String additionalInformationKey: AVAILABLE_ADDITIONAL_INFORMATION) {
+
+            if (additionalUserInformation.containsKey(additionalInformationKey)) {
+                userProfile.setAttribute(additionalInformationKey, additionalUserInformation.get(additionalInformationKey));
+            }
+        }
+
+        hanlder.saveUserProfile(userProfile, true);
+    }
+
     @GET
     @Path("getReport")
     @Produces("application/vnd.ms-excel")
-    public Response getReport(@QueryParam("reportId") String reportId) throws Exception {
+    public Response getReport(@QueryParam("reportId") String reportId) {
         try {
             File temp = null;
 

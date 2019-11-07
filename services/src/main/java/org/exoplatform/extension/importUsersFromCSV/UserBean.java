@@ -16,6 +16,9 @@
  */
 package org.exoplatform.extension.importUsersFromCSV;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by MedAmine.
  */
@@ -30,6 +33,7 @@ public class UserBean {
     private String groups;
     private String spaces;
 
+    private Map<String, String> additionalInformations = new HashMap<>();
 
     public String getUserName() {
         return userName;
@@ -85,5 +89,13 @@ public class UserBean {
 
     public void setSpaces(String spaces) {
         this.spaces = spaces;
+    }
+
+    public Map<String, String> getAdditionalInformations() {
+        return additionalInformations;
+    }
+
+    public void setAdditionalInformations(Map<String, String> additionalInformations) {
+        this.additionalInformations = additionalInformations;
     }
 }
