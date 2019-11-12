@@ -1,34 +1,34 @@
 package org.exoplatform.extension.importUsersFromCSV;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response;
-
 import com.google.caja.util.Sets;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.component.ComponentRequestLifecycle;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.*;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.social.core.identity.model.Identity;
-import org.exoplatform.social.core.identity.model.Profile;
 import org.exoplatform.social.core.space.model.Space;
 import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.social.service.rest.RestChecker;
 import org.exoplatform.social.service.rest.Util;
-import org.exoplatform.social.core.manager.IdentityManager;
+import org.gatein.common.p3p.P3PConstants;
+import org.json.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.*;
-
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.log.Log;
-import org.gatein.common.p3p.P3PConstants;
-import org.json.JSONObject;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static java.util.Objects.nonNull;
 
@@ -53,12 +53,9 @@ public class ImportUsersRestService implements ResourceContainer {
             P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_STATEPROV, // Département - Adresse (Liste déroulante)
             P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_COUNTRY); // Région - Adresse (Liste déroulante)
 
-    private IdentityManager identityManager_;
-
-    public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService,IdentityManager identityManager) {
+    public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService) {
         this.orgService_=orgService;
         this.spaceService_=spaceService;
-        this.identityManager_=identityManager;
     }
 
     @POST
@@ -80,7 +77,6 @@ public class ImportUsersRestService implements ResourceContainer {
         MembershipHandler mHandler = orgService_.getMembershipHandler();
         MediaType mediaType = RestChecker.checkSupportedFormat("json", SUPPORTED_FORMATS);
         try {
-            identityManager_=Util.getIdentityManager(portalContainerName);
             if(sourceIdentity == null) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }

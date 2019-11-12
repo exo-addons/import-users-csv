@@ -1,4 +1,4 @@
-var cvsData;
+var csvData;
 
 function exportData (url,fileName) {
     var a = document.createElement("a");
@@ -13,71 +13,21 @@ $(document).ready(function () {
     $('#files').on('change', handleFileSelect);
 });
 
-function cvsData(evt) {
-    var files = evt.target.files; // FileList object
-    var file = files[0];
-    var reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = function(event){
-        var csv = event.target.result;
-        csv = res;
-        cvsData = $.csv.toObjects(csv);
-        listContact = new Array();
-        if (cvsData != "")
-        {
-            for (i = 0; i < cvsData.length; i++)
-            {
-                entity = new Array();
-                entity[0] = cvsData[i].userName;
-                entity[1] = cvsData[i].firstName;
-                entity[2] = cvsData[i].lastName;
-                entity[3] = cvsData[i].email;
-                entity[4] = cvsData[i].password;
-                listContact.push(entity);
-            }
-        }
-        oTable = $("#multiTable").dataTable
-        ({
-            "bJQueryUI": true,
-            "bProcessing": true,
-            "sPaginationType": "full_numbers",
-            "bRetrieve":true,
-            "bFilter": false,
-            "bLengthChange": false,
-            "oLanguage": {
-                "sEmptyTable": "No users available in file",
-                "sInfo": "Showing _START_ to _END_ of _TOTAL_ Users",
-                "sInfoEmpty": "No Users to show",
-                "sLengthMenu": "Show _MENU_ Users",
-                "sZeroRecords": "No Users to display"
-            },
-            "aaData": listContact,
-            "aoColumns":
-                [
-                    {
-                        "sTitle": "User Name"
-                    },
-                    {
-                        "sTitle": "First Name"
-                    },
-                    {
-                        "sTitle": "Last Name"
-                    },
-                    {
-                        "sTitle": "email"
-                    },
-                    {
-                        "sTitle": "password",
-                        "bVisible": false
-                    }
-                ]
-        });
-
-        $("#uploadusers").show();
-        $("#cancelupload").show();
-    };
-    reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
-}
+var DATATABLE_COLUMNS_CONFIGURATION = [
+    { key: "userName", libelle: "User Name" },
+    { key: "firstName", libelle: "First Name" },
+    { key: "lastName", libelle: "Last Name" },
+    { key: "email", libelle: "Email" },
+    { key: "password", libelle: "password", "visible": false },
+    { key: "groups", libelle: "Groups" },
+    { key: "spaces", libelle: "Spaces" },
+    { key: "user.jobtitle", libelle: "Fonction" },
+    { key: "user.business-info.postal.name", libelle: "Lieu d'exercice" },
+    { key: "user.business-info.postal.city", libelle: "Ville" },
+    { key: "user.business-info.postal.stateprov", libelle: "Département" },
+    { key: "user.business-info.postal.postalcode", libelle: "Code postal" },
+    { key: "user.business-info.postal.country", libelle: "Région" },
+    { key: "user.business-info.postal.street", libelle: "Numéro et rue" }];
 
 function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -86,24 +36,27 @@ function handleFileSelect(evt) {
     reader.readAsText(file);
     $('#nofileselect').text(file.name);
     reader.onload = function(event){
+
         var csv = event.target.result;
-        cvsData = $.csv.toObjects(csv);
+        csvData = $.csv.toObjects(csv);
+        var csvHeaders = Object.keys(csvData[0]);
+
         listContact = new Array();
-        if (cvsData != "")
+        if (csvData != "")
         {
-            for (i = 0; i < cvsData.length; i++)
+            for (i = 0; i < csvData.length; i++)
             {
                 entity = new Array();
-                entity[0] = cvsData[i].userName;
-                entity[1] = cvsData[i].firstName;
-                entity[2] = cvsData[i].lastName;
-                entity[3] = cvsData[i].email;
-                entity[4] = cvsData[i].password;
-                entity[5] = cvsData[i].groups;
-                entity[6] = cvsData[i].spaces;
+                csvHeaders.forEach(function(header, index) {
+                    entity[index] = csvData[i][header];
+                });
+
                 listContact.push(entity);
             }
         }
+
+        var datatableColumns = provideDatatableColumns(csvHeaders);
+
         oTable = $("#multiTable").dataTable
         ({
             "bJQueryUI": true,
@@ -113,31 +66,7 @@ function handleFileSelect(evt) {
             "bFilter": false,
             "bLengthChange": false,
             "aaData": listContact,
-            "aoColumns":
-                [
-                    {
-                        "sTitle": "User Name"
-                    },
-                    {
-                        "sTitle": "First Name"
-                    },
-                    {
-                        "sTitle": "Last Name"
-                    },
-                    {
-                        "sTitle": "Email"
-                    },
-                    {
-                        "sTitle": "password",
-                        "bVisible": false
-                    },
-                    {
-                        "sTitle": "Groups"
-                    },
-                    {
-                        "sTitle": "Spaces"
-                    }
-                ]
+            "aoColumns": datatableColumns
         });
         $("#uploadusers").show();
         $("#cancelupload").show();
@@ -145,10 +74,65 @@ function handleFileSelect(evt) {
     reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
 }
 
-var importUsers = function ()
-{
+var provideDatatableColumns = function(columnKeys) {
+
+    var datatableColumns = [];
+
+    for (var columnIndex = 0; columnIndex < columnKeys.length; columnIndex++) {
+        var key = columnKeys[columnIndex];
+        var dataTableConfiguration = findInDatatableConfiguration(key);
+
+        if (dataTableConfiguration) {
+            var visible = (dataTableConfiguration.hasOwnProperty("visible"))? dataTableConfiguration.visible: true;
+            datatableColumns.push({ "sTitle": dataTableConfiguration.libelle, "bVisible": visible });
+        }
+    }
+
+    return datatableColumns;
+}
+
+var findInDatatableConfiguration = function(key) {
+
+    for (var configurationIndex = 0; configurationIndex < DATATABLE_COLUMNS_CONFIGURATION.length; configurationIndex++) {
+        var dataTableConfiguration = DATATABLE_COLUMNS_CONFIGURATION[configurationIndex];
+
+        if (dataTableConfiguration.key === key) {
+            return dataTableConfiguration;
+        }
+    }
+
+    return null;
+}
+
+var importUsers = function () {
     var createusers=$("#createusers").is(":checked");
     var addusers=$("#addusers").is(":checked");
+
+    var body = [];
+
+    for (var i=0; i<csvData.length; i++) {
+
+        var user = csvData[i];
+        body.push({
+            "userName": user["userName"],
+            "firstName": user["firstName"],
+            "lastName": user["lastName"],
+            "email": user["email"],
+            "password": user["password"],
+            "groups": user["groups"],
+            "spaces": user["spaces"],
+            "additionalInformations": {
+                "user.jobtitle": user["user.jobtitle"],
+                "user.business-info.postal.name": user["user.business-info.postal.name"],
+                "user.business-info.postal.city": user["user.business-info.postal.city"],
+                "user.business-info.postal.stateprov": user["user.business-info.postal.stateprov"],
+                "user.business-info.postal.postalcode": user["user.business-info.postal.postalcode"],
+                "user.business-info.postal.country": user["user.business-info.postal.country"],
+                "user.business-info.postal.street": user["user.business-info.postal.street"]
+            }
+        });
+    }
+
     $.ajax
     ({
         beforeSend: function() {
@@ -157,7 +141,7 @@ var importUsers = function ()
         cache: true,
         type: "POST",
         async: true,
-        data: JSON.stringify(cvsData),
+        data: JSON.stringify(body),
         contentType: "application/json",
         dataType: "json",
         url: "/rest/private/importusersrest/importusers?creatduplicated="+createusers+"&addexistingusers="+addusers,

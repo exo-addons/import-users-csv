@@ -30,15 +30,13 @@ public class ImportUsersRestServiceTest {
     @Mock
     private SpaceService mockSpaceService;
     @Mock
-    private IdentityManager mockIdentityManager;
-    @Mock
     private UserProfileHandler mockUserProfileHandler;
     @Mock
     private OrganizationService mockOrganizationService;
 
     @Before
     public void setUp() {
-        importUsersRestService = new ImportUsersRestService(mockOrganizationService, mockSpaceService, mockIdentityManager);
+        importUsersRestService = new ImportUsersRestService(mockOrganizationService, mockSpaceService);
 
         when(mockOrganizationService.getUserProfileHandler()).thenReturn(mockUserProfileHandler);
     }

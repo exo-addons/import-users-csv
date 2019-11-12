@@ -16,13 +16,14 @@
  */
 package org.exoplatform.extension.importUsersFromCSV;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by MedAmine.
  */
-public class UserBean {
+public class UserBean implements Serializable {
 
 
     private String userName;
