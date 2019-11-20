@@ -33,6 +33,7 @@ public class UserBean implements Serializable {
     private String password;
     private String groups;
     private String spaces;
+    private String position;
 
     private Map<String, String> additionalInformations = new HashMap<>();
 
@@ -90,6 +91,14 @@ public class UserBean implements Serializable {
 
     public void setSpaces(String spaces) {
         this.spaces = spaces;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public Map<String, String> getAdditionalInformations() {

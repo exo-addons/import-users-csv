@@ -21,13 +21,13 @@ var DATATABLE_COLUMNS_CONFIGURATION = [
     { key: "password", libelle: "password", "visible": false },
     { key: "groups", libelle: "Groups" },
     { key: "spaces", libelle: "Spaces" },
-    { key: "user.jobtitle", libelle: "Fonction" },
-    { key: "user.business-info.postal.name", libelle: "Lieu d'exercice" },
-    { key: "user.business-info.postal.city", libelle: "Ville" },
-    { key: "user.business-info.postal.stateprov", libelle: "Département" },
-    { key: "user.business-info.postal.postalcode", libelle: "Code postal" },
-    { key: "user.business-info.postal.country", libelle: "Région" },
-    { key: "user.business-info.postal.street", libelle: "Numéro et rue" }];
+    { key: "position", libelle: "Fonction" },
+    { key: "addressPracticePlace", libelle: "Lieu d'exercice" },
+    { key: "addressCity", libelle: "Ville" },
+    { key: "addressDepartment", libelle: "Département" },
+    { key: "addressZipCode", libelle: "Code postal" },
+    { key: "addressArea", libelle: "Région" },
+    { key: "addressStreet", libelle: "Numéro et rue" }];
 
 function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -122,13 +122,13 @@ var importUsers = function () {
             "groups": user["groups"],
             "spaces": user["spaces"],
             "additionalInformations": {
-                "user.jobtitle": user["user.jobtitle"],
-                "user.business-info.postal.name": user["user.business-info.postal.name"],
-                "user.business-info.postal.city": user["user.business-info.postal.city"],
-                "user.business-info.postal.stateprov": user["user.business-info.postal.stateprov"],
-                "user.business-info.postal.postalcode": user["user.business-info.postal.postalcode"],
-                "user.business-info.postal.country": user["user.business-info.postal.country"],
-                "user.business-info.postal.street": user["user.business-info.postal.street"]
+                "position": user["position"],
+                "addressPracticePlace": user["addressPracticePlace"],
+                "addressCity": user["addressCity"],
+                "addressDepartment": user["addressDepartment"],
+                "addressZipCode": user["addressZipCode"],
+                "addressArea": user["addressArea"],
+                "addressStreet": user["addressStreet"]
             }
         });
     }

@@ -1,6 +1,7 @@
 package org.exoplatform.extension.importUsersFromCSV;
 
 import com.google.caja.util.Sets;
+import org.exoplatform.commons.utils.CommonsUtils;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.component.ComponentRequestLifecycle;
 import org.exoplatform.services.log.ExoLogger;
@@ -8,10 +9,13 @@ import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.*;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.model.Profile;
+import org.exoplatform.social.core.manager.IdentityManager;
 import org.exoplatform.social.core.space.model.Space;
 import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.social.service.rest.RestChecker;
 import org.exoplatform.social.service.rest.Util;
+import org.exoplatform.webui.exception.MessageException;
 import org.gatein.common.p3p.P3PConstants;
 import org.json.JSONObject;
 
@@ -43,15 +47,6 @@ public class ImportUsersRestService implements ResourceContainer {
     private static Boolean requestStarted = false;
     private OrganizationService orgService_;
     private SpaceService spaceService_;
-
-    private final static Set<String> AVAILABLE_ADDITIONAL_INFORMATION = Sets.newHashSet(
-            P3PConstants.INFO_USER_JOB_TITLE, // Fonction
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_NAME, // Lieu d'exercice : champ libre obligatoire
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_STREET, // Numéro et rue - Adresse (champ libre)
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_POSTALCODE, // Code postal - Adresse (champ libre)
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_CITY, // Ville - Adresse (champ libre)
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_STATEPROV, // Département - Adresse (Liste déroulante)
-            P3PConstants.INFO_USER_BUSINESS_INFO_POSTAL_COUNTRY); // Région - Adresse (Liste déroulante)
 
     public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService) {
         this.orgService_=orgService;
@@ -181,6 +176,11 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
                         exist = true;
                     }
+
+
+                    updateSocialeProfile(userIn);
+
+
                     if (exist && addExistingUsers != null && addExistingUsers) {
 
                         // Add users to groups
@@ -235,12 +235,6 @@ public class ImportUsersRestService implements ResourceContainer {
                         if (groupUpdated && status.equals("Updated")) status += " - Space or group updated";
                     }
 
-
-                    Map<String, String> additionalUserInformations = userIn.getAdditionalInformations();
-                    if (nonNull(additionalUserInformations) && !additionalUserInformations.isEmpty()) {
-                        createOrUpdateUserProfile(user, additionalUserInformations);
-                    }
-
             }catch (Exception e){
                 LOG.error(e);
                 // set error flag + exception
@@ -275,23 +269,15 @@ public class ImportUsersRestService implements ResourceContainer {
         }
     }
 
-    void createOrUpdateUserProfile(User user, Map<String, String> additionalUserInformation) throws Exception {
+    private void updateSocialeProfile(UserBean user) throws MessageException {
+        Profile socialProfile = CommonsUtils.getService(IdentityManager.class).getOrCreateIdentity("organization", user.getUserName(), true).getProfile();
+        for (Map.Entry mapEntry : user.getAdditionalInformations().entrySet()) {
 
-        UserProfileHandler hanlder = orgService_.getUserProfileHandler();
-        UserProfile userProfile = hanlder.findUserProfileByName(user.getUserName());
-
-        if (Objects.isNull(userProfile)) {
-            userProfile = hanlder.createUserProfileInstance(user.getUserName());
+            String key = (String) mapEntry.getKey();
+            String value = (String) mapEntry.getValue();
+            socialProfile.setProperty(key, value);
         }
-
-        for (String additionalInformationKey: AVAILABLE_ADDITIONAL_INFORMATION) {
-
-            if (additionalUserInformation.containsKey(additionalInformationKey)) {
-                userProfile.setAttribute(additionalInformationKey, additionalUserInformation.get(additionalInformationKey));
-            }
-        }
-
-        hanlder.saveUserProfile(userProfile, true);
+        CommonsUtils.getService(IdentityManager.class).updateProfile(socialProfile);
     }
 
     @GET
