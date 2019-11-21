@@ -20,14 +20,7 @@ var DATATABLE_COLUMNS_CONFIGURATION = [
     { key: "email", libelle: "Email" },
     { key: "password", libelle: "password", "visible": false },
     { key: "groups", libelle: "Groups" },
-    { key: "spaces", libelle: "Spaces" },
-    { key: "position", libelle: "Fonction" },
-    { key: "addressPracticePlace", libelle: "Lieu d'exercice" },
-    { key: "addressCity", libelle: "Ville" },
-    { key: "addressDepartment", libelle: "Département" },
-    { key: "addressZipCode", libelle: "Code postal" },
-    { key: "addressArea", libelle: "Région" },
-    { key: "addressStreet", libelle: "Numéro et rue" }];
+    { key: "spaces", libelle: "Spaces" }];
 
 function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
@@ -84,7 +77,11 @@ var provideDatatableColumns = function(columnKeys) {
 
         if (dataTableConfiguration) {
             var visible = (dataTableConfiguration.hasOwnProperty("visible"))? dataTableConfiguration.visible: true;
-            datatableColumns.push({ "sTitle": dataTableConfiguration.libelle, "bVisible": visible });
+            if (dataTableConfiguration.libelle) {
+                datatableColumns.push({ "sTitle": dataTableConfiguration.libelle, "bVisible": visible });
+            } else {
+                datatableColumns.push({ "sTitle": dataTableConfiguration, "bVisible": visible });
+            }
         }
     }
 
@@ -101,7 +98,7 @@ var findInDatatableConfiguration = function(key) {
         }
     }
 
-    return null;
+    return key;
 }
 
 var importUsers = function () {
@@ -113,6 +110,20 @@ var importUsers = function () {
     for (var i=0; i<csvData.length; i++) {
 
         var user = csvData[i];
+        var additionalInformations = {};
+        for (let key of Object.keys(user)) {
+            if(key!="userName" &&
+                key!="firstName" &&
+                key!="lastName" &&
+                key!="email" &&
+                key!="password" &&
+                key!="groups" &&
+                key!="spaces") {
+                additionalInformations[key]=user[key];
+            }
+        }
+
+
         body.push({
             "userName": user["userName"],
             "firstName": user["firstName"],
@@ -121,15 +132,7 @@ var importUsers = function () {
             "password": user["password"],
             "groups": user["groups"],
             "spaces": user["spaces"],
-            "additionalInformations": {
-                "position": user["position"],
-                "addressPracticePlace": user["addressPracticePlace"],
-                "addressCity": user["addressCity"],
-                "addressDepartment": user["addressDepartment"],
-                "addressZipCode": user["addressZipCode"],
-                "addressArea": user["addressArea"],
-                "addressStreet": user["addressStreet"]
-            }
+            "additionalInformations": additionalInformations
         });
     }
 
