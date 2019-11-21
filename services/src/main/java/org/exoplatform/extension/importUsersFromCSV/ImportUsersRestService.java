@@ -1,37 +1,45 @@
 package org.exoplatform.extension.importUsersFromCSV;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.Response;
-
+import com.google.caja.util.Sets;
+import org.exoplatform.commons.utils.CommonsUtils;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.component.ComponentRequestLifecycle;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.*;
 import org.exoplatform.services.rest.resource.ResourceContainer;
 import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.model.Profile;
+import org.exoplatform.social.core.manager.IdentityManager;
 import org.exoplatform.social.core.space.model.Space;
 import org.exoplatform.social.core.space.spi.SpaceService;
 import org.exoplatform.social.service.rest.RestChecker;
 import org.exoplatform.social.service.rest.Util;
-import org.exoplatform.social.core.manager.IdentityManager;
+import org.exoplatform.webui.exception.MessageException;
+import org.gatein.common.p3p.P3PConstants;
+import org.json.JSONObject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.log.Log;
-import org.json.JSONObject;
+import static java.util.Objects.nonNull;
 
 
 @Path("/importusersrest")
 @Produces("application/json")
 public class ImportUsersRestService implements ResourceContainer {
-
 
     private static final Log LOG = ExoLogger.getLogger(ImportUsersRestService.class);
     private static final String portalContainerName = "portal";
@@ -40,12 +48,9 @@ public class ImportUsersRestService implements ResourceContainer {
     private OrganizationService orgService_;
     private SpaceService spaceService_;
 
-    private IdentityManager identityManager_;
-
-    public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService,IdentityManager identityManager) {
+    public ImportUsersRestService(OrganizationService orgService, SpaceService spaceService) {
         this.orgService_=orgService;
         this.spaceService_=spaceService;
-        this.identityManager_=identityManager;
     }
 
     @POST
@@ -56,7 +61,7 @@ public class ImportUsersRestService implements ResourceContainer {
                                 @Context UriInfo uriInfo,
                                 @QueryParam("creatduplicated") Boolean creatDuplicated,
                                 @QueryParam("addexistingusers") Boolean addExistingUsers,
-                                List<UserBean> users) throws Exception {
+                                List<UserBean> users) {
 
         // report String in csv format, status can be created, updated, duplicated, error+message;
         String csv = "username,lastname,firstname,email,status" + "\n";
@@ -67,7 +72,6 @@ public class ImportUsersRestService implements ResourceContainer {
         MembershipHandler mHandler = orgService_.getMembershipHandler();
         MediaType mediaType = RestChecker.checkSupportedFormat("json", SUPPORTED_FORMATS);
         try {
-            identityManager_=Util.getIdentityManager(portalContainerName);
             if(sourceIdentity == null) {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
@@ -77,6 +81,7 @@ public class ImportUsersRestService implements ResourceContainer {
             startRequest();
             for(UserBean userIn:users) {
                 User user=null;
+
                 //define status, possible value : created, updated, duplicated, error+message
                 String status = "Created";
                 String name = userIn.getUserName();
@@ -121,6 +126,7 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
 
                     } else if (uh.findUserByName(name) != null) {
+
                         if (creatDuplicated != null && creatDuplicated) {
                             int suffix = 1;
                             String newName = name + suffix;
@@ -170,7 +176,13 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
                         exist = true;
                     }
+
+
+                    updateSocialeProfile(userIn);
+
+
                     if (exist && addExistingUsers != null && addExistingUsers) {
+
                         // Add users to groups
                         Boolean groupUpdated = false;
                         if (userIn.getGroups() != null && !userIn.getGroups().equals("")) {
@@ -222,6 +234,7 @@ public class ImportUsersRestService implements ResourceContainer {
                         }
                         if (groupUpdated && status.equals("Updated")) status += " - Space or group updated";
                     }
+
             }catch (Exception e){
                 LOG.error(e);
                 // set error flag + exception
@@ -256,10 +269,21 @@ public class ImportUsersRestService implements ResourceContainer {
         }
     }
 
+    private void updateSocialeProfile(UserBean user) throws MessageException {
+        Profile socialProfile = CommonsUtils.getService(IdentityManager.class).getOrCreateIdentity("organization", user.getUserName(), true).getProfile();
+        for (Map.Entry mapEntry : user.getAdditionalInformations().entrySet()) {
+
+            String key = (String) mapEntry.getKey();
+            String value = (String) mapEntry.getValue();
+            socialProfile.setProperty(key, value);
+        }
+        CommonsUtils.getService(IdentityManager.class).updateProfile(socialProfile);
+    }
+
     @GET
     @Path("getReport")
     @Produces("application/vnd.ms-excel")
-    public Response getReport(@QueryParam("reportId") String reportId) throws Exception {
+    public Response getReport(@QueryParam("reportId") String reportId) {
         try {
             File temp = null;
 

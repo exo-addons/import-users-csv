@@ -16,10 +16,14 @@
  */
 package org.exoplatform.extension.importUsersFromCSV;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by MedAmine.
  */
-public class UserBean {
+public class UserBean implements Serializable {
 
 
     private String userName;
@@ -29,7 +33,9 @@ public class UserBean {
     private String password;
     private String groups;
     private String spaces;
+    private String position;
 
+    private Map<String, String> additionalInformations = new HashMap<>();
 
     public String getUserName() {
         return userName;
@@ -85,5 +91,21 @@ public class UserBean {
 
     public void setSpaces(String spaces) {
         this.spaces = spaces;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public Map<String, String> getAdditionalInformations() {
+        return additionalInformations;
+    }
+
+    public void setAdditionalInformations(Map<String, String> additionalInformations) {
+        this.additionalInformations = additionalInformations;
     }
 }

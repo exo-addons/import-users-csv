@@ -1,7 +1,7 @@
-userName,firstName,lastName,password,email,groups,spaces
-user1,user1,user1,user1,user1@user.mm,member:/platform/group1;manager:/platform/group2,space1;space2
-user2,user2,user2,user2,user2@user.mm,*:/platform/group1;member:/platform/group2,space1;space2
-user3,user3,user3,user3,user3@user.mm,/platform/group1;/platform/group2,space1;space2
-user4,user4,user4,user4,user4@user.mm,/platform/group1;/platform/group2,space1;space2
-user5,user5,user5,user5,user5@user.mm,/platform/group1;/platform/group2,space1;space2
-user6,user6,user6,user6,user6@user.mm,/platform/group1;/platform/group2,space1;space2
+userName,firstName,lastName,password,email,groups,spaces,property1Name,property2Name,...,propertyNName
+user1,user1,user1,user1,user1@user.mm,member:/platform/group1;manager:/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue
+user2,user2,user2,user2,user2@user.mm,*:/platform/group1;member:/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue
+user3,user3,user3,user3,user3@user.mm,/platform/group1;/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue
+user4,user4,user4,user4,user4@user.mm,/platform/group1;/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue
+user5,user5,user5,user5,user5@user.mm,/platform/group1;/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue
+user6,user6,user6,user6,user6@user.mm,/platform/group1;/platform/group2,space1;space2,property1Value,property2Value,...,propertyNValue

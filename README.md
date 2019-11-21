@@ -1,9 +1,15 @@
 Addon Import Users from CSV
 =============================
 
+Versions and Features
+=================
+Version 1.2.4 : Add the possibility to fill user profile
+
 
 Build & install
 =================
+
+
 
 Checkout the code, go at root folder and type 
 
