@@ -29,10 +29,7 @@ import javax.ws.rs.core.UriInfo;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Objects.nonNull;
 
@@ -270,12 +267,17 @@ public class ImportUsersRestService implements ResourceContainer {
     }
 
     private void updateSocialeProfile(UserBean user) throws MessageException {
+
         Profile socialProfile = CommonsUtils.getService(IdentityManager.class).getOrCreateIdentity("organization", user.getUserName(), true).getProfile();
         for (Map.Entry mapEntry : user.getAdditionalInformations().entrySet()) {
 
             String key = (String) mapEntry.getKey();
             String value = (String) mapEntry.getValue();
             socialProfile.setProperty(key, value);
+
+            List<Profile.UpdateType> list = new ArrayList<>();
+            list.add(Profile.UpdateType.CONTACT);
+            socialProfile.setListUpdateTypes(list);
         }
         CommonsUtils.getService(IdentityManager.class).updateProfile(socialProfile);
     }
