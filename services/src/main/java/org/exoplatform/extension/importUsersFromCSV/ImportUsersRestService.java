@@ -137,7 +137,12 @@ public class ImportUsersRestService implements ResourceContainer {
                             user.setEmail(userIn.getEmail());
                             user.setLastName(userIn.getLastName());
                             user.setFirstName(userIn.getFirstName());
+
                             uh.createUser(user, true);
+
+
+                            saveUserGateinProfile(newName, userIn.getAdditionalInformations());
+
                             i++;
                             j++;
                             LOG.info("User " + userIn.getFirstName() + userIn.getLastName() + " imported");
@@ -163,6 +168,9 @@ public class ImportUsersRestService implements ResourceContainer {
                         user.setLastName(userIn.getLastName());
                         user.setFirstName(userIn.getFirstName());
                         uh.createUser(user, true);
+
+                        saveUserGateinProfile(name, userIn.getAdditionalInformations());
+
                         i++;
                         j++;
                         LOG.info("User " + userIn.getFirstName() + userIn.getLastName() + " imported");
@@ -264,6 +272,21 @@ public class ImportUsersRestService implements ResourceContainer {
         }finally{
             endRequest();
         }
+    }
+
+    private void saveUserGateinProfile(String userName,  Map<String, String> userAdditionalInformationsToSave) throws Exception {
+        UserProfileHandler handler = orgService_.getUserProfileHandler();
+        UserProfile userProfile = handler.findUserProfileByName(userName);
+        if (userProfile == null) {
+            userProfile = handler.createUserProfileInstance(userName);
+        }
+
+        if (null != userAdditionalInformationsToSave) {
+            for (Map.Entry additionalInformationsEntry : userAdditionalInformationsToSave.entrySet()) {
+                userProfile.setAttribute((String) additionalInformationsEntry.getKey(), (String) additionalInformationsEntry.getValue());
+            }
+        }
+        handler.saveUserProfile(userProfile, true);
     }
 
     private void updateSocialeProfile(UserBean user) throws MessageException {
