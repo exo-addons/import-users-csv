@@ -52,7 +52,7 @@
 
                     </div>
                     <div style=" margin: 10px 0;">
-                        <table  id="multiTable" class="hover row-border compact" style="margin: 0;border-left: solid 1px #ccc;">
+                        <table  id="multiTable" class="hover row-border compact importUserTable">
 
                         </table>
                     </div>

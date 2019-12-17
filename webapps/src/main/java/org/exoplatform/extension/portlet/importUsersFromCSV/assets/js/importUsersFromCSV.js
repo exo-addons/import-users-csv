@@ -52,6 +52,7 @@ function handleFileSelect(evt) {
 
         oTable = $("#multiTable").dataTable
         ({
+            "scrollX": true,
             "bJQueryUI": true,
             "bProcessing": true,
             "sPaginationType": "full_numbers",
