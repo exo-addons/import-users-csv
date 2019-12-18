@@ -36,3 +36,10 @@ div#ImportUsersPortlet {
 	color: #333333;
 	padding: 10px;
 }
+
+.importUserTable {
+    margin: 0;
+    border-left: solid 1px #ccc;
+    display: block;
+    overflow-x: auto;
+}
