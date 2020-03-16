@@ -77,6 +77,10 @@ public class ImportUsersRestService implements ResourceContainer {
             int j=0;
             startRequest();
             for(UserBean userIn:users) {
+                if (i % 100 ==0) {
+                    LOG.info("Treat user "+i+"/"+users.size());
+                }
+                
                 User user=null;
 
                 //define status, possible value : created, updated, duplicated, error+message
@@ -220,7 +224,10 @@ public class ImportUsersRestService implements ResourceContainer {
                                 Space space = spaceService_.getSpaceByPrettyName(spaceId);
                                 if (space != null) {
                                     if (!spaceService_.isMember(space,user.getUserName())) {
+                                        long startTime=System.currentTimeMillis();
                                         spaceService_.addMember(space, user.getUserName());
+                                        long endTime=System.currentTimeMillis();
+                                        LOG.debug("Time to add user in space : "+(endTime-startTime)+" ms");
                                         groupUpdated = true;
                                     }
                                 } else {
