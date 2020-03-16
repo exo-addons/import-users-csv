@@ -145,11 +145,6 @@ public class ImportUsersRestService implements ResourceContainer {
                             i++;
                             j++;
                             LOG.info("User " + userIn.getFirstName() + userIn.getLastName() + " imported");
-                            if (j < 20) {
-                                endRequest();
-                                startRequest();
-                                j = 0;
-                            }
                             status = "Duplicated";
                             exist = true;
                         } else {
@@ -170,11 +165,6 @@ public class ImportUsersRestService implements ResourceContainer {
                         i++;
                         j++;
                         LOG.info("User " + userIn.getFirstName() + userIn.getLastName() + " imported");
-                        if (j < 20) {
-                            endRequest();
-                            startRequest();
-                            j = 0;
-                        }
                         exist = true;
                     }
 
@@ -253,6 +243,11 @@ public class ImportUsersRestService implements ResourceContainer {
                     email = user.getEmail();
                 }
                 csv+= name+","+lastName+","+firstName+","+email+","+status+ "\n";
+                if (j < 20) {
+                    endRequest();
+                    startRequest();
+                    j = 0;
+                }
             }
             File temp = null;
             temp = File.createTempFile("imported-users", ".tmp");
